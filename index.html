@@ -66,7 +66,7 @@
   const state = {token:null,user:null,modules:[],stats:[],active:'Dashboard',moduleData:null};
   const $ = id => document.getElementById(id);
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const API_ENDPOINT = 'https://api-guru-wali.ahmad-ramlan-mei.workers.dev/api';
+const API_ENDPOINT = 'https://api-guru-wali-ramlan.ahmad-ramlan-mei.workers.dev/api';
   function callServer(name,...args){return fetch(API_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action:name,args}),redirect:'follow'}).then(async response=>{const raw=await response.text();let data;try{data=JSON.parse(raw);}catch(e){throw new Error('Respons server tidak valid. Periksa URL Worker dan deployment Apps Script.');}if(!response.ok||data.ok===false)throw new Error(data&&data.error?data.error:'Permintaan gagal.');return data.result;});}
   function toast(msg,type){const text=String(msg==null?'':msg);const inferred=type||( /gagal|tidak dapat|tidak ditemukan|kesalahan|error|invalid|ditolak/i.test(text)?'error':/berhasil|tersimpan|dihapus|diperbarui|terkirim|selesai/i.test(text)?'success':/perhatian|pastikan|belum/i.test(text)?'warning':'info');const root=$('toast');root.className='toast toast-'+inferred;$('toastIcon').textContent=inferred==='success'?'✓':inferred==='error'?'!':inferred==='warning'?'⚠':'i';$('toastMessage').textContent=text;clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>root.classList.add('hidden'),4200);}
   function appPrompt({title='Edit pesan',subtitle='Periksa kembali isi pesan sebelum menyimpan.',value='',placeholder='Tulis pesan...',confirmText='Simpan perubahan',maxLength=5000}={}){
